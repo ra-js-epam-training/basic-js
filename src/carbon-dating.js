@@ -11,7 +11,7 @@ module.exports = function dateSample(sampleActivity) {
   }
   // the string must have numbers only
   let sampleNum = new Number(sampleActivity);
-  if (typeof sampleNum !== 'number' || sampleNum <= 0 || sampleNum > MODERN_ACTIVITY ) {
+  if (typeof sampleNum !== "number" || sampleNum <= 0 || sampleNum > MODERN_ACTIVITY) {
     return false;
   }
   // calculate the result and round up it
