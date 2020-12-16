@@ -41,7 +41,7 @@ module.exports = function repeater(str, options) {
   // separate the string
   strObj.separate();
   // do another stuff which is needed for an addtional string
-  if (options["addition"]) {
+  if ("addition" in options) {
     const addObj = new Text(options["addition"], options["additionSeparator"]);
     addObj.repeat(options["additionRepeatTimes"] || 1);
     addObj.separate();
