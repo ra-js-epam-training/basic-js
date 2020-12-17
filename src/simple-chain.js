@@ -23,13 +23,10 @@ const chainMaker = {
     return this;
   },
   finishChain() {
-    const chainStr = this.toString();
+    const chainStr = this.chain.map(i => `( ${i} )`).join('~~');
     // to empty the array
     this.chain.length = 0;
     return chainStr;
-  },
-  toString() {
-    return this.chain.map(i => `( ${i} )`).join('~~');
   }
 };
 
