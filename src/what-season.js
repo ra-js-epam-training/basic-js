@@ -9,7 +9,7 @@ const seasons = {
 
 module.exports = function getSeason(date) {
   // no arguments passed
-  if (arguments.length === 0) {
+  if (!date) {
     return 'Unable to determine the time of year!';
   }
   // argument is here but it's invalid
@@ -17,7 +17,7 @@ module.exports = function getSeason(date) {
     throw new CustomError('Bad input argument!');
   }
   // getting actual month
-  const month = date.toLocaleString('default', { month: 'short' });
+  const month = date.toLocaleString('en-GB', { month: 'short' });
   for (let key in seasons) {
     if (seasons[key].includes(month)) {
       return key;
