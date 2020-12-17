@@ -10,7 +10,7 @@ const CustomError = require("../extensions/custom-error");
 */
 module.exports = function createDreamTeam(members) {
   // if there is a wrong input type or it's an empty array - return false
-  if (!Array.isArray(members) || members.length == 0) {
+  if (!Array.isArray(members) || members.length === 0) {
     return false;
   }
   // to clean up input args and cast all names to uppercase
