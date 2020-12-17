@@ -11,6 +11,8 @@ const chainMaker = {
   },
   removeLink(position) {
     if (position < 1 || position > this.getLength()) {
+      // to clean up an array
+      this.chain.length = 0;
       throw new CustomError('Wrong position!');
     }
     this.chain.splice(position - 1, 1);
