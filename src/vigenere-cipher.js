@@ -4,8 +4,8 @@ class VigenereCipheringMachine {
 
   constructor(machineType = true) {
     this.machineType = machineType;
-    this.output = [];
-    this.LATIN_LEN = 26;
+    this.output = new String();
+    this.ENGLISH_LEN = 26;
     this.LOWER_MIN = 97;
     this.LOWER_MAX = 122;
     this.UPPER_MIN = 65;
@@ -13,39 +13,40 @@ class VigenereCipheringMachine {
   }
 
   isLower(c) {
-    return this.LOWER_MIN <= c && c <= this.LOWER_MAX;
+    return c >= this.LOWER_MIN && c <= this.LOWER_MAX;
   }
 
   isUpper(c) {
-    return this.UPPER_MIN <= c && c <= this.UPPER_MAX;
+    return c >= this.UPPER_MIN && c <= this.UPPER_MAX;
   }
 
-  isLetter(c) {
-    return this.isUpper(c) || this.isLower(c);
+  getUpperSecret(secret, j) {
+    return secret[j % secret.length].toUpperCase().charCodeAt() - this.UPPER_MIN;
+  }
+
+  getLowerSecret(secret, j) {
+    return secret[j % secret.length].toLowerCase().charCodeAt() - this.LOWER_MIN;
   }
 
   encrypt(plaintext, secret) {
     if (plaintext.length === 0 || secret.length === 0) {
       return new Error('Input args are empty!');
     }
-    const key = secret.split('').map(c => (c.codePointAt() - this.UPPER_MIN) % 32);
-    console.log(key);
     for (let i = 0, j = 0; i < plaintext.length; i++) {
       let c = plaintext.charCodeAt(i);
-      console.log('>> code ', c);
-      let code;
       if (this.isUpper(c)) {
-        code = (c - this.UPPER_MIN + key[j % key.length]) % (this.LATIN_LEN + this.UPPER_MIN);
-        this.output.push(String.fromCharCode(code));
+        const secretItem = this.getUpperSecret(secret, j);
+        const codeToChar = (c - this.UPPER_MIN + secretItem) % this.ENGLISH_LEN;
+        this.output += String.fromCharCode(codeToChar + this.UPPER_MIN);
         j++;
       } else if (this.isLower(c)) {
-        code = (c - this.LOWER_MIN + key[j % key.length]) % (this.LATIN_LEN + this.LOWER_MIN);
-        this.output.push(String.fromCharCode(code));
+        const secretItem = this.getLowerSecret(secret, j);
+        const codeToChar = (c - this.LOWER_MIN + secretItem) % this.ENGLISH_LEN;
+        this.output += String.fromCharCode(codeToChar + this.LOWER_MIN);
         j++;
       } else {
-        this.output.push(plaintext.charAt(i))
+        this.output += plaintext.charAt(i);
       }
-      console.log('> ', code);
     }
     return this.output;
   }
@@ -58,5 +59,6 @@ class VigenereCipheringMachine {
 
 //module.exports = VigenereCipheringMachine;
 const cypher = new VigenereCipheringMachine();
-const text = cypher.encrypt('Foo Bar Baz!', 'secret');
+const text = cypher.encrypt('foo bar baz!', 'SECRET');
+//const text = cypher.encrypt('Foo Bar Baz!', 'secret');
 console.log(text);
